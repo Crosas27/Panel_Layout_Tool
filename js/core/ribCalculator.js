@@ -1,23 +1,26 @@
 export function calculateRibs(wall) {
 
+  const {
+    length,
+    ribSpacing = 12,
+    offset = 0
+  } = wall;
+
   const ribs = [];
 
-  const spacing = wall.ribSpacing;
-  const offset = wall.offset || 0;
-  const length = wall.length;
-
-  let position = offset;
   let index = 0;
+  let position = offset;
 
+  // build ribs across wall
   while (position <= length) {
 
     ribs.push({
-      index: index,
-      position: Number(position.toFixed(4))
+      index,
+      position
     });
 
-    position += spacing;
     index++;
+    position = offset + index * ribSpacing;
   }
 
   return ribs;
