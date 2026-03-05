@@ -1,1 +1,39 @@
-1
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Layout Engine</title>
+
+<link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+
+<h1>Layout Engine</h1>
+
+<div id="controls">
+
+<label>Wall Length</label>
+<input id="wallLength" type="number">
+
+<label>Panel Coverage</label>
+<input id="panelCoverage" type="number">
+
+<label>Rib Spacing</label>
+<input id="ribSpacing" type="number">
+
+<label>Offset</label>
+<input id="offset" type="number">
+
+<button id="renderBtn">Render</button>
+
+</div>
+
+<div id="ribOutput"></div>
+
+<svg id="wallSvg"></svg>
+
+<script type="module" src="./js/app.js"></script>
+
+</body>
+</html>
