@@ -3,8 +3,11 @@ export function calculatePanels(wall, ribs) {
   const {
     length,
     panelCoverage = 36
+    offset = 0 
   } = wall;
 
+  const usableLength = length - offset;
+ 
   // number of full panels
   const fullPanels = Math.floor(length / panelCoverage);
 
