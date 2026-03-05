@@ -2,9 +2,9 @@ export function calculateRibs(wall) {
 
   const ribs = [];
 
-  const length = wall.length;
   const spacing = wall.ribSpacing;
-  const offset = wall.offset;
+  const offset = wall.offset || 0;
+  const length = wall.length;
 
   let position = offset;
   let index = 0;
@@ -13,14 +13,12 @@ export function calculateRibs(wall) {
 
     ribs.push({
       index: index,
-      position: parseFloat(position.toFixed(4))
+      position: Number(position.toFixed(4))
     });
 
     position += spacing;
     index++;
-
   }
 
   return ribs;
-
 }
