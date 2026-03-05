@@ -1,21 +1,32 @@
 export function calculatePanels(wall, ribs) {
 
-  const panelCoverage = wall.panelCoverage;
-  const wallLength = wall.length;
+  const {
+    length,
+    panelCoverage = 36
+  } = wall;
 
-  const fullPanels = Math.floor(wallLength / panelCoverage);
+  // number of full panels
+  const fullPanels = Math.floor(length / panelCoverage);
 
-  const lastSeamPosition = fullPanels * panelCoverage;
+  // last seam rib position
+  const lastSeam = fullPanels * panelCoverage;
 
-  const rippedPanelWidth = wallLength - lastSeamPosition;
+  // end panel width
+  let endPanelWidth = length - lastSeam;
 
-  const hasRippedPanel = rippedPanelWidth > 0;
+  // determine if ripped panel is needed
+  const rippedPanel = endPanelWidth > 0;
+
+  // if perfectly divisible, visually we show no end cut
+  if (endPanelWidth === 0) {
+    endPanelWidth = 0;
+  }
 
   return {
     fullPanels,
-    rippedPanelWidth,
-    hasRippedPanel,
-    totalPanels: fullPanels + (hasRippedPanel ? 1 : 0),
-    lastSeamPosition
+    rippedPanel,
+    endPanelWidth,
+    lastSeam
   };
+
 }
