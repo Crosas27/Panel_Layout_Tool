@@ -1,19 +1,47 @@
 import { calculateRibs } from "./ribCalculator.js";
 import { calculatePanels } from "./panelCalculator.js";
 
-export function calculateLayout(wall) {
+export function calculateLayout(wallWidth, offset = 0) {
 
-  if (!wall) {
-    throw new Error("Wall object is required");
+  const ribSpacing = 12;
+  const panelCoverage = 36;
+
+  const ribs = [];
+  const seams = [];
+
+  // ---- RIBS ----
+
+  let rib = 0;
+
+  while (rib <= wallWidth + ribSpacing) {
+    ribs.push(rib);
+    rib += ribSpacing;
   }
 
-  const ribs = calculateRibs(wall);
+  // ---- PANEL SEAMS ----
 
-  const panels = calculatePanels(wall, ribs);
+  let seam = offset;
+
+  while (seam <= wallWidth) {
+    seams.push(seam);
+    seam += panelCoverage;
+  }
+
+  // ---- PANEL COUNT ----
+
+  const panelCount = seams.length;
+
+  // ---- END PANEL CUT ----
+
+  const lastSeam = seams[seams.length - 1];
+
+  const rippedPanelWidth = wallWidth - lastSeam;
 
   return {
-    wall,
     ribs,
-    panels
+    seams,
+    panelCount,
+    rippedPanelWidth
   };
+
 }
