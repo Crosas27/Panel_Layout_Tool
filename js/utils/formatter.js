@@ -1,25 +1,22 @@
 export function formatToField(inches) {
 
-  const precision = 8; // 1/8" precision
+  const precision = 8;
 
   const totalInches = inches;
 
   const feet = Math.floor(totalInches / 12);
   const remainingInches = totalInches % 12;
 
-  let wholeInches = Math.floor(remainingInches);
+  const wholeInches = Math.floor(remainingInches);
   let fractional = remainingInches - wholeInches;
 
-  // Round to nearest 1/8
   let eighths = Math.round(fractional * precision);
 
-  // Handle rollover like 11 8/8"
   if (eighths === precision) {
     eighths = 0;
     wholeInches += 1;
   }
 
-  // Handle inch rollover like 12"
   let finalFeet = feet;
   let finalInches = wholeInches;
 
@@ -28,7 +25,6 @@ export function formatToField(inches) {
     finalInches = 0;
   }
 
-  // Reduce fraction
   function gcd(a, b) {
     return b ? gcd(b, a % b) : a;
   }
