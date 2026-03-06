@@ -1,117 +1,146 @@
-export function renderLayout({ wallWidth, ribs, seams, offset }) {
+// svgRenderer.js
+// Responsible for drawing wall layout visualization
 
-  const svg = document.getElementById("layoutSvg");
+export function renderSvg(model) {
+
+  const svg = document.getElementById("wallSvg");
+  if (!svg) return;
 
   svg.innerHTML = "";
 
-  const scale = 8;
-  const width = wallWidth * scale;
-  const height = 120;
+  const wallLength = model.wallLength;
+  const ribs = model.ribs;
+  const panelCoverage = model.panelCoverage;
 
-  svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+  const svgWidth = svg.clientWidth || 900;
+  const svgHeight = 220;
 
-  // COLORS
+  svg.setAttribute("viewBox", `0 0 ${svgWidth} ${svgHeight}`);
 
-  const colors = {
-  wall: "#e8eef7",
-  rib: "#475569",
-  seam: "#2563eb",
-  panelA: "#f1f5f9",
-  panelB: "#e2e8f0",
-  text: "#1e293b"
-};
+  const scale = svgWidth / wallLength;
 
-  // WALL BACKGROUND
+  const wallTop = 60;
+  const wallHeight = 80;
 
-  const wall = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+  // ------------------------------------------------
+  // PANEL SHADING
+  // ------------------------------------------------
 
-  wall.setAttribute("x", 0);
-  wall.setAttribute("y", 20);
-  wall.setAttribute("width", width);
-  wall.setAttribute("height", 60);
-  wall.setAttribute("fill", colors.wall);
+  let panelIndex = 0;
 
-  svg.appendChild(wall);
+  for (let x = 0; x < wallLength; x += panelCoverage) {
 
-  // DRAW PANELS
+    const width = Math.min(panelCoverage, wallLength - x);
 
-let panelIndex = 0;
+    const rect = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "rect"
+    );
 
-for (let i = 0; i < seams.length; i++) {
+    rect.setAttribute("x", x * scale);
+    rect.setAttribute("y", wallTop);
+    rect.setAttribute("width", width * scale);
+    rect.setAttribute("height", wallHeight);
 
-  const start = seams[i];
-  const end = seams[i + 1] ?? wallWidth;
+    rect.setAttribute(
+      "fill",
+      panelIndex % 2 === 0
+        ? "rgba(120,140,160,0.15)"
+        : "rgba(120,140,160,0.25)"
+    );
 
-  const panelWidth = end - start;
+    svg.appendChild(rect);
 
-  const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    panelIndex++;
 
-  rect.setAttribute("x", start * scale);
-  rect.setAttribute("y", 20);
-  rect.setAttribute("width", panelWidth * scale);
-  rect.setAttribute("height", 60);
+  }
 
-  rect.setAttribute(
-    "fill",
-    panelIndex % 2 === 0 ? colors.panelA : colors.panelB
+  // ------------------------------------------------
+  // WALL OUTLINE
+  // ------------------------------------------------
+
+  const wallRect = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "rect"
   );
 
-  svg.appendChild(rect);
+  wallRect.setAttribute("x", 0);
+  wallRect.setAttribute("y", wallTop);
+  wallRect.setAttribute("width", wallLength * scale);
+  wallRect.setAttribute("height", wallHeight);
 
-  panelIndex++;
+  wallRect.setAttribute("stroke", "#90A4AE");
+  wallRect.setAttribute("stroke-width", "2");
+  wallRect.setAttribute("fill", "none");
 
-}
-  
-  // DRAW RIBS
+  svg.appendChild(wallRect);
+
+  // ------------------------------------------------
+  // PANEL SEAMS
+  // ------------------------------------------------
+
+  for (let x = panelCoverage; x < wallLength; x += panelCoverage) {
+
+    const seam = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "line"
+    );
+
+    seam.setAttribute("x1", x * scale);
+    seam.setAttribute("x2", x * scale);
+    seam.setAttribute("y1", wallTop);
+    seam.setAttribute("y2", wallTop + wallHeight);
+
+    seam.setAttribute("stroke", "#78909C");
+    seam.setAttribute("stroke-width", "3");
+    seam.setAttribute("opacity", "0.6");
+
+    svg.appendChild(seam);
+
+  }
+
+  // ------------------------------------------------
+  // RIB LINES
+  // ------------------------------------------------
 
   ribs.forEach((rib, index) => {
 
-    const x = rib * scale;
+    const x = rib.position * scale;
 
-    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    const ribLine = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "line"
+    );
 
-    line.setAttribute("x1", x);
-    line.setAttribute("y1", 20);
-    line.setAttribute("x2", x);
-    line.setAttribute("y2", 80);
-    line.setAttribute("stroke", colors.rib);
-    line.setAttribute("stroke-width", 1);
+    ribLine.setAttribute("x1", x);
+    ribLine.setAttribute("x2", x);
+    ribLine.setAttribute("y1", wallTop);
+    ribLine.setAttribute("y2", wallTop + wallHeight);
 
-    svg.appendChild(line);
+    ribLine.setAttribute("stroke", "#2196F3");
+    ribLine.setAttribute("stroke-width", "2");
 
-    // RIB LABEL
+    svg.appendChild(ribLine);
 
-    const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    // ---------------------------------------------
+    // Rib numbers
+    // ---------------------------------------------
+
+    const label = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "text"
+    );
 
     label.setAttribute("x", x);
-    label.setAttribute("y", 95);
-    label.setAttribute("font-size", "10");
+    label.setAttribute("y", wallTop + wallHeight + 20);
     label.setAttribute("text-anchor", "middle");
-    label.setAttribute("fill", colors.text);
+
+    label.setAttribute("fill", "#BBDEFB");
+    label.setAttribute("font-size", "10");
 
     label.textContent = `R${index}`;
 
     svg.appendChild(label);
-
-  });
-
-  // DRAW PANEL SEAMS
-
-  seams.forEach(seam => {
-
-    const x = seam * scale;
-
-    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-
-    line.setAttribute("x1", x);
-    line.setAttribute("y1", 20);
-    line.setAttribute("x2", x);
-    line.setAttribute("y2", 80);
-
-    line.setAttribute("stroke", colors.seam);
-    line.setAttribute("stroke-width", 3);
-
-    svg.appendChild(line);
 
   });
 
