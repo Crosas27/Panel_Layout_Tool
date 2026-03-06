@@ -1,5 +1,5 @@
-import { calculateRibs } from "./ribCalculator.js";
-import { calculatePanels } from "./panelCalculator.js";
+import { calculateRibs } from "./core/ribCalculator.js";
+import { calculatePanels } from "./core/panelCalculator.js";
 
 export function generateLayout(config) {
 
