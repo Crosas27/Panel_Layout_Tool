@@ -1,47 +1,26 @@
+// layoutEngine.js
+// Main layout orchestrator
+
+import { createLayoutModel } from "./layoutModel.js";
 import { calculateRibs } from "./ribCalculator.js";
 import { calculatePanels } from "./panelCalculator.js";
 
-export function calculateLayout(wallWidth, offset = 0) {
+export function calculateLayout(wallInput) {
 
-  const ribSpacing = 12;
-  const panelCoverage = 36;
+  // 1 — Create base model
+  const model = createLayoutModel(wallInput);
 
-  const ribs = [];
-  const seams = [];
+  // 2 — Calculate rib positions
+  calculateRibs(model);
 
-  // ---- RIBS ----
+  // 3 — Calculate panel counts and end cut
+  calculatePanels(model);
 
-  let rib = 0;
-
-  while (rib <= wallWidth + ribSpacing) {
-    ribs.push(rib);
-    rib += ribSpacing;
+  // 4 — Establish extents
+  if (model.ribs.length > 0) {
+    model.firstRib = model.ribs[0];
+    model.lastRib = model.ribs[model.ribs.length - 1];
   }
 
-  // ---- PANEL SEAMS ----
-
-  let seam = offset;
-
-  while (seam <= wallWidth) {
-    seams.push(seam);
-    seam += panelCoverage;
-  }
-
-  // ---- PANEL COUNT ----
-
-  const panelCount = seams.length;
-
-  // ---- END PANEL CUT ----
-
-  const lastSeam = seams[seams.length - 1];
-
-  const rippedPanelWidth = wallWidth - lastSeam;
-
-  return {
-    ribs,
-    seams,
-    panelCount,
-    rippedPanelWidth
-  };
-
+  return model;
 }
