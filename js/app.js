@@ -1,30 +1,34 @@
-import { calculateRibs } from "./core/ribCalculator.js";
-import { renderSvg } from "./render/svgRenderer.js";
-import { displayRibs } from "./ui/uiController.js";
+import { calculateLayout } from "./engine/layoutEngine.js"
+import { renderLayout } from "./renderer/svgRenderer.js"
 
-let wall = {
-  length: 0,
-  panelCoverage: 36,
-  ribSpacing: 12,
-  offset: 0
-};
+let svgElement
+let wallInput
+let offsetInput
+let renderBtn
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", init)
 
-  const renderBtn = document.getElementById("renderBtn");
+function init() {
 
-  renderBtn.addEventListener("click", () => {
+  svgElement = document.getElementById("wallSvg")
+  wallInput = document.getElementById("wallWidth")
+  offsetInput = document.getElementById("offset")
+  renderBtn = document.getElementById("renderBtn")
 
-    wall.length = parseFloat(document.getElementById("wallLength").value);
-    wall.panelCoverage = parseFloat(document.getElementById("panelCoverage").value);
-    wall.ribSpacing = parseFloat(document.getElementById("ribSpacing").value);
-    wall.offset = parseFloat(document.getElementById("offset").value);
+  renderBtn.addEventListener("click", handleRender)
 
-    const ribs = calculateRibs(wall);
+}
 
-    displayRibs(ribs, wall);
-    renderSvg(wall, ribs);
+function handleRender() {
 
-  });
+  const wallWidth = Number(wallInput.value) || 0
+  const offset = Number(offsetInput.value) || 0
 
-});
+  const layout = calculateLayout({
+    wallWidth,
+    offset
+  })
+
+  renderLayout(svgElement, layout)
+
+}
