@@ -1,4 +1,4 @@
-function formatToField(inches) {
+export function formatToField(inches) {
 
   const precision = 8; // 1/8" precision
 
@@ -7,7 +7,7 @@ function formatToField(inches) {
   const feet = Math.floor(totalInches / 12);
   const remainingInches = totalInches % 12;
 
-  const wholeInches = Math.floor(remainingInches);
+  let wholeInches = Math.floor(remainingInches);
   let fractional = remainingInches - wholeInches;
 
   // Round to nearest 1/8
