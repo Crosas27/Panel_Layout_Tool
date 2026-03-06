@@ -18,7 +18,7 @@ export function renderSvg(model) {
 
   svg.setAttribute("viewBox", `0 0 ${svgWidth} ${svgHeight}`);
 
-  const scale = svgWidth / wallLength;
+  const scale = wallLength > 0 ? svgWidth / wallLength : 1;
 
   const wallTop = 60;
   const wallHeight = 100;
@@ -151,18 +151,18 @@ export function renderSvg(model) {
 
     svg.appendChild(line);
 
-    const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    const panelText = document.createElementNS("http://www.w3.org/2000/svg", "text");
 
-    text.setAttribute("x", (start + end) / 2);
-    text.setAttribute("y", panelDimY - 4);
+    panelText.setAttribute("x", (start + end) / 2);
+    panelText.setAttribute("y", panelDimY - 4);
 
-    text.setAttribute("fill", "#CFD8DC");
-    text.setAttribute("text-anchor", "middle");
-    text.setAttribute("font-size", "10");
+    panelText.setAttribute("fill", "#CFD8DC");
+    panelText.setAttribute("text-anchor", "middle");
+    panelText.setAttribute("font-size", "10");
 
-    text.textContent = formatToField(width);
+    panelText.textContent = formatToField(width);
 
-    svg.appendChild(text);
+    svg.appendChild(panelText);
   }
 
   // ------------------------------------------------
@@ -181,15 +181,15 @@ export function renderSvg(model) {
 
   svg.appendChild(totalLine);
 
-  const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+  const totalText = document.createElementNS("http://www.w3.org/2000/svg", "text");
 
-  text.setAttribute("x", (wallLength * scale) / 2);
-  text.setAttribute("y", totalDimY - 10);
+  totalText.setAttribute("x", (wallLength * scale) / 2);
+  totalText.setAttribute("y", totalDimY - 10);
 
-  text.setAttribute("text-anchor", "middle");
-  text.setAttribute("fill", "#4FC3F7");
+  totalText.setAttribute("text-anchor", "middle");
+  totalText.setAttribute("fill", "#4FC3F7");
 
-  text.textContent = formatToField(wallLength);
+  totalText.textContent = formatToField(wallLength);
 
-  svg.appendChild(text);
+  svg.appendChild(totalText);
 }
