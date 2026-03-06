@@ -1,26 +1,34 @@
 // layoutEngine.js
-// Main layout orchestrator
+// Central orchestration for panel layout calculations
 
 import { createLayoutModel } from "./layoutModel.js";
 import { calculateRibs } from "./ribCalculator.js";
 import { calculatePanels } from "./panelCalculator.js";
 
-export function calculateLayout(wallInput) {
+export function generateLayout(config) {
 
-  // 1 — Create base model
-  const model = createLayoutModel(wallInput);
+  // --------------------------------------------------
+  // 1️⃣ Create base model
+  // --------------------------------------------------
 
-  // 2 — Calculate rib positions
+  const model = createLayoutModel(config);
+
+  // --------------------------------------------------
+  // 2️⃣ Calculate rib positions
+  // --------------------------------------------------
+
   calculateRibs(model);
 
-  // 3 — Calculate panel counts and end cut
+  // --------------------------------------------------
+  // 3️⃣ Calculate panel counts and end cuts
+  // --------------------------------------------------
+
   calculatePanels(model);
 
-  // 4 — Establish extents
-  if (model.ribs.length > 0) {
-    model.firstRib = model.ribs[0];
-    model.lastRib = model.ribs[model.ribs.length - 1];
-  }
+  // --------------------------------------------------
+  // 4️⃣ Return finished layout model
+  // --------------------------------------------------
 
   return model;
+
 }
