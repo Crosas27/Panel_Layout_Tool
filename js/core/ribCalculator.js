@@ -1,32 +1,20 @@
-// ribCalculator.js
-// Generates rib positions across the wall
-
 export function calculateRibs(model) {
 
   const ribs = [];
 
-  const wallLength = model.wallLength;
-  const spacing = model.ribSpacing;
-  const offset = model.offset || 0;
-
-  if (!spacing || spacing <= 0) {
-    model.ribs = ribs;
-    return;
-  }
-
-  let position = offset;
+  let pos = model.offset;
   let index = 0;
 
-  while (position <= wallLength) {
+  while (pos <= model.wallLength) {
 
     ribs.push({
-      index: index,
-      position: parseFloat(position.toFixed(4))
+      index,
+      position: Number(pos.toFixed(4))
     });
 
-    position += spacing;
+    pos += model.ribSpacing;
     index++;
   }
 
-  model.ribs = ribs;
+  return ribs;
 }
