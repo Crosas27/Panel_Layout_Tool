@@ -1,12 +1,16 @@
 import { calculateLayout } from "./engine/layoutEngine.js"
 import { renderLayout } from "./renderer/svgRenderer.js"
+import { initUI } from "./ui/uiController.js";
+
+document.addEventListener("DOMContentLoaded", () => {
+  initUI();
+});
+
 
 let svgElement
 let wallInput
 let offsetInput
 let renderBtn
-
-document.addEventListener("DOMContentLoaded", init)
 
 function init() {
 
