@@ -1,6 +1,6 @@
 // ribTableRenderer.js
 
-import { formatToField } from "../core/utils/formatter.js";
+import { formatToField } from "../utils/formatter.js";
 
 export function renderRibTable(model) {
 
