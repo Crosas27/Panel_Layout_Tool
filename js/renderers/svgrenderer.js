@@ -1,98 +1,87 @@
 export function renderLayout({ wallWidth, ribs, seams, offset }) {
 
   const svg = document.getElementById("layoutSvg");
+
   svg.innerHTML = "";
 
-  const wallHeight = 140;
-  const scale = 8; // pixels per inch
+  const scale = 8;
+  const width = wallWidth * scale;
+  const height = 120;
 
-  svg.setAttribute("width", wallWidth * scale);
-  svg.setAttribute("height", wallHeight);
+  svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
 
-  // ---- WALL BACKGROUND ----
+  // COLORS
+
+  const colors = {
+    wall: "#f3f6fb",
+    rib: "#6b7280",
+    seam: "#2563eb",
+    text: "#1f2937"
+  };
+
+  // WALL BACKGROUND
 
   const wall = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+
   wall.setAttribute("x", 0);
   wall.setAttribute("y", 20);
-  wall.setAttribute("width", wallWidth * scale);
-  wall.setAttribute("height", 80);
-  wall.setAttribute("fill", "#f5f7fa");
+  wall.setAttribute("width", width);
+  wall.setAttribute("height", 60);
+  wall.setAttribute("fill", colors.wall);
 
   svg.appendChild(wall);
 
-  // ---- RIBS ----
+  // DRAW RIBS
 
-  ribs.forEach((rib, i) => {
+  ribs.forEach((rib, index) => {
 
     const x = rib * scale;
 
     const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
 
     line.setAttribute("x1", x);
-    line.setAttribute("x2", x);
     line.setAttribute("y1", 20);
-    line.setAttribute("y2", 100);
-
-    line.setAttribute("stroke", "#c7d0d9");
-    line.setAttribute("stroke-width", "1");
+    line.setAttribute("x2", x);
+    line.setAttribute("y2", 80);
+    line.setAttribute("stroke", colors.rib);
+    line.setAttribute("stroke-width", 1);
 
     svg.appendChild(line);
 
-    // rib number
+    // RIB LABEL
 
     const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
 
     label.setAttribute("x", x);
-    label.setAttribute("y", 115);
-
-    label.setAttribute("text-anchor", "middle");
+    label.setAttribute("y", 95);
     label.setAttribute("font-size", "10");
-    label.setAttribute("fill", "#6b7280");
+    label.setAttribute("text-anchor", "middle");
+    label.setAttribute("fill", colors.text);
 
-    label.textContent = `R${i}`;
+    label.textContent = `R${index}`;
 
     svg.appendChild(label);
 
   });
 
-  // ---- PANEL SEAMS ----
+  // DRAW PANEL SEAMS
 
   seams.forEach(seam => {
 
     const x = seam * scale;
 
-    const seamLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
 
-    seamLine.setAttribute("x1", x);
-    seamLine.setAttribute("x2", x);
-    seamLine.setAttribute("y1", 20);
-    seamLine.setAttribute("y2", 100);
+    line.setAttribute("x1", x);
+    line.setAttribute("y1", 20);
+    line.setAttribute("x2", x);
+    line.setAttribute("y2", 80);
 
-    seamLine.setAttribute("stroke", "#2f6fed");
-    seamLine.setAttribute("stroke-width", "2.5");
+    line.setAttribute("stroke", colors.seam);
+    line.setAttribute("stroke-width", 3);
 
-    svg.appendChild(seamLine);
+    svg.appendChild(line);
 
   });
-
-  // ---- OFFSET MARKER ----
-
-  if (offset > 0) {
-
-    const x = offset * scale;
-
-    const offsetLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
-
-    offsetLine.setAttribute("x1", x);
-    offsetLine.setAttribute("x2", x);
-    offsetLine.setAttribute("y1", 10);
-    offsetLine.setAttribute("y2", 110);
-
-    offsetLine.setAttribute("stroke", "#1f4fbf");
-    offsetLine.setAttribute("stroke-width", "3");
-
-    svg.appendChild(offsetLine);
-
-  }
 
 }
