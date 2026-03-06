@@ -1,6 +1,6 @@
 // svgRenderer.js
 
-import { formatToField } from "../core/measurementFormatter.js";
+import { formatToField } from "../utils/formatter.js";
 
 export function renderSvg(model) {
 
