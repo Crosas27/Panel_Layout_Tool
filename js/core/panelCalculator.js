@@ -1,35 +1,62 @@
-export function calculatePanels(wall, ribs) {
+// panelCalculator.js
+// Determines panel counts and end cut width based on rib layout
 
-  const {
-    length,
-    panelCoverage = 36
-    offset = 0 
-  } = wall;
+export function calculatePanels(model) {
 
-  const usableLength = length - offset;
- 
-  // number of full panels
-  const fullPanels = Math.floor(length / panelCoverage);
+  const ribs = model.ribs || [];
+  const wallLength = model.wallLength;
+  const panelCoverage = model.panelCoverage;
 
-  // last seam rib position
-  const lastSeam = fullPanels * panelCoverage;
-
-  // end panel width
-  let endPanelWidth = length - lastSeam;
-
-  // determine if ripped panel is needed
-  const rippedPanel = endPanelWidth > 0;
-
-  // if perfectly divisible, visually we show no end cut
-  if (endPanelWidth === 0) {
-    endPanelWidth = 0;
+  if (!ribs.length || !panelCoverage) {
+    model.panelData = {
+      fullPanels: 0,
+      rippedPanel: false,
+      rippedWidth: 0,
+      totalPanels: 0
+    };
+    return;
   }
 
-  return {
-    fullPanels,
-    rippedPanel,
-    endPanelWidth,
-    lastSeam
+  // -----------------------------------
+  // Full panel count
+  // -----------------------------------
+
+  const fullPanels = Math.floor(wallLength / panelCoverage);
+
+  // -----------------------------------
+  // Last seam rib
+  // -----------------------------------
+
+  const lastSeamPosition = fullPanels * panelCoverage;
+
+  // -----------------------------------
+  // End cut width
+  // -----------------------------------
+
+  let endCut = wallLength - lastSeamPosition;
+
+  // Fix floating decimals
+  endCut = parseFloat(endCut.toFixed(4));
+
+  // -----------------------------------
+  // Determine if ripped panel needed
+  // -----------------------------------
+
+  const rippedPanel = endCut > 0;
+
+  const totalPanels = rippedPanel
+    ? fullPanels + 1
+    : fullPanels;
+
+  // -----------------------------------
+  // Store results
+  // -----------------------------------
+
+  model.panelData = {
+    fullPanels: fullPanels,
+    rippedPanel: rippedPanel,
+    rippedWidth: endCut,
+    totalPanels: totalPanels
   };
 
 }
