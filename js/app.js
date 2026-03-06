@@ -1,4 +1,4 @@
-import { calculateLayout } from "./core/layoutEngine.js"
+import { generateLayout } from "./core/layoutEngine.js"
 import { renderSvg } from "./renderer/svgRenderer.js"
 import { initUI } from "./ui/uiController.js"
 
@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const wallLength = Number(wallInput.value) || 0
     const offset = Number(offsetInput.value) || 0
 
-    const model = calculateLayout({
+    const model = generateLayout({
       wallLength,
       offset
     })
