@@ -1,29 +1,25 @@
-import { calculateLayout } from "./engine/layoutEngine.js"
+import { calculateLayout } from "./core/layoutEngine.js"
 import { renderLayout } from "./renderer/svgRenderer.js"
-import { initUI } from "./ui/uiController.js";
+import { initUI } from "./ui/uiController.js"
 
 document.addEventListener("DOMContentLoaded", () => {
-  initUI();
-});
-
-
-let svgElement
-let wallInput
-let offsetInput
-let renderBtn
+  initUI()
+  init()
+})
 
 function init() {
 
-  svgElement = document.getElementById("wallSvg")
-  wallInput = document.getElementById("wallWidth")
-  offsetInput = document.getElementById("offset")
-  renderBtn = document.getElementById("renderBtn")
+  const renderBtn = document.getElementById("renderBtn")
 
   renderBtn.addEventListener("click", handleRender)
 
 }
 
 function handleRender() {
+
+  const svgElement = document.getElementById("wallSvg")
+  const wallInput = document.getElementById("wallWidth")
+  const offsetInput = document.getElementById("offset")
 
   const wallWidth = Number(wallInput.value) || 0
   const offset = Number(offsetInput.value) || 0
