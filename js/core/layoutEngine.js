@@ -1,23 +1,56 @@
-import { calculateRibs } from "./core/ribCalculator.js";
-import { calculatePanels } from "./core/panelCalculator.js";
-
 export function generateLayout(config) {
 
-  const { wallLength, ribSpacing, panelCoverage, startOffset } = config;
-
-  const ribs = [];
-  const panels = [];
-
-  let position = startOffset;
-
-  while (position <= wallLength) {
-    ribs.push(position);
-    position += ribSpacing;
-  }
+  const ribs = calculateRibs(config);
+  const panels = calculatePanels(config);
 
   return {
-    wallLength,
+    wallLength: config.wallLength,
     ribs,
     panels
   };
+}
+
+
+// ---------------------------
+// Rib Calculation
+// ---------------------------
+
+function calculateRibs({ wallLength, ribSpacing, startOffset }) {
+
+  const ribs = [];
+  let position = startOffset;
+
+  while (position <= wallLength) {
+
+    ribs.push({
+      position
+    });
+
+    position += ribSpacing;
+  }
+
+  return ribs;
+}
+
+
+// ---------------------------
+// Panel Calculation
+// ---------------------------
+
+function calculatePanels({ wallLength, panelCoverage }) {
+
+  const panels = [];
+  let position = 0;
+
+  while (position < wallLength) {
+
+    panels.push({
+      start: position,
+      end: Math.min(position + panelCoverage, wallLength)
+    });
+
+    position += panelCoverage;
+  }
+
+  return panels;
 }
