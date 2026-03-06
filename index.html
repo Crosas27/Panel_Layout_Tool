@@ -1,65 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Panel Layout Tool</title>
 
+<link rel="stylesheet" href="css/styles.css">
+
 <style>
 
 body{
-    font-family: system-ui, sans-serif;
-    background:#0f172a;
-    color:#e2e8f0;
-    margin:0;
-    padding:20px;
+  font-family: Arial, Helvetica, sans-serif;
+  margin:0;
+  padding:0;
+  background:#f5f5f5;
 }
 
-h1{
-    margin-bottom:20px;
+header{
+  background:#222;
+  color:white;
+  padding:12px 20px;
+  font-size:20px;
+}
+
+.container{
+  padding:20px;
 }
 
 .controls{
-    display:flex;
-    gap:20px;
-    flex-wrap:wrap;
-    margin-bottom:20px;
+  background:white;
+  padding:15px;
+  border-radius:6px;
+  box-shadow:0 2px 6px rgba(0,0,0,.1);
+  margin-bottom:20px;
 }
 
-.control-group{
-    display:flex;
-    flex-direction:column;
-    font-size:14px;
+.controls label{
+  display:block;
+  margin-top:10px;
+  font-weight:bold;
 }
 
-input{
-    padding:6px 8px;
-    border-radius:4px;
-    border:1px solid #334155;
-    background:#020617;
-    color:#e2e8f0;
+.controls input{
+  width:120px;
+  padding:6px;
+  margin-top:4px;
 }
 
-button{
-    padding:8px 16px;
-    background:#0284c7;
-    border:none;
-    border-radius:4px;
-    color:white;
-    cursor:pointer;
+.controls button{
+  margin-top:15px;
+  padding:10px 18px;
+  background:#0077ff;
+  border:none;
+  color:white;
+  font-weight:bold;
+  border-radius:4px;
+  cursor:pointer;
 }
 
-button:hover{
-    background:#0369a1;
+.controls button:hover{
+  background:#0059c9;
+}
+
+.viewer{
+  background:white;
+  padding:15px;
+  border-radius:6px;
+  box-shadow:0 2px 6px rgba(0,0,0,.1);
+  margin-bottom:20px;
 }
 
 #wallSvg{
-    width:100%;
-    height:260px;
-    border:1px solid #334155;
-    background:#020617;
+  width:100%;
+  height:220px;
+  border:1px solid #ccc;
+}
+
+.tableContainer{
+  background:white;
+  padding:15px;
+  border-radius:6px;
+  box-shadow:0 2px 6px rgba(0,0,0,.1);
+}
+
+table{
+  border-collapse:collapse;
+  width:100%;
+}
+
+th,td{
+  border:1px solid #ddd;
+  padding:6px;
+  text-align:center;
+}
+
+th{
+  background:#eee;
 }
 
 </style>
@@ -68,30 +106,59 @@ button:hover{
 
 <body>
 
-<h1>Panel Layout Tool</h1>
+<header>
+Panel Layout Tool
+</header>
+
+<div class="container">
+
+<!-- CONTROLS -->
 
 <div class="controls">
 
-    <div class="control-group">
-        <label>Wall Width (inches)</label>
-        <input id="wallWidth" type="number" placeholder="Example: 144">
-    </div>
+<label>Wall Length (inches)</label>
+<input id="wallLength" type="number" value="240">
 
-    <div class="control-group">
-        <label>Starting Offset (inches)</label>
-        <input id="offset" type="number" placeholder="Example: 0">
-    </div>
+<label>Rib Spacing (inches)</label>
+<input id="ribSpacing" type="number" value="12">
 
-    <div class="control-group">
-        <label>&nbsp;</label>
-        <button id="renderBtn">Generate Layout</button>
-    </div>
+<label>Panel Coverage (inches)</label>
+<input id="panelCoverage" type="number" value="36">
+
+<label>Start Offset (inches)</label>
+<input id="offset" type="number" value="0">
+
+<br>
+
+<button id="renderBtn">Render Layout</button>
 
 </div>
 
-<svg id="wallSvg" width="100%" height="260"></svg>
+<!-- SVG VIEWER -->
 
-<script type="module" src="./js/app.js"></script>
+<div class="viewer">
+
+<h3>Layout</h3>
+
+<svg id="wallSvg"></svg>
+
+</div>
+
+<!-- RIB TABLE -->
+
+<div class="tableContainer">
+
+<h3>Rib Table</h3>
+
+<div id="ribTable"></div>
+
+</div>
+
+</div>
+
+<!-- APP SCRIPT -->
+
+<script type="module" src="js/app.js"></script>
 
 </body>
 </html>
