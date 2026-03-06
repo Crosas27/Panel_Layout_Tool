@@ -13,11 +13,13 @@ export function renderLayout({ wallWidth, ribs, seams, offset }) {
   // COLORS
 
   const colors = {
-    wall: "#f3f6fb",
-    rib: "#6b7280",
-    seam: "#2563eb",
-    text: "#1f2937"
-  };
+  wall: "#e8eef7",
+  rib: "#475569",
+  seam: "#2563eb",
+  panelA: "#f1f5f9",
+  panelB: "#e2e8f0",
+  text: "#1e293b"
+};
 
   // WALL BACKGROUND
 
@@ -31,6 +33,35 @@ export function renderLayout({ wallWidth, ribs, seams, offset }) {
 
   svg.appendChild(wall);
 
+  // DRAW PANELS
+
+let panelIndex = 0;
+
+for (let i = 0; i < seams.length; i++) {
+
+  const start = seams[i];
+  const end = seams[i + 1] ?? wallWidth;
+
+  const panelWidth = end - start;
+
+  const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+
+  rect.setAttribute("x", start * scale);
+  rect.setAttribute("y", 20);
+  rect.setAttribute("width", panelWidth * scale);
+  rect.setAttribute("height", 60);
+
+  rect.setAttribute(
+    "fill",
+    panelIndex % 2 === 0 ? colors.panelA : colors.panelB
+  );
+
+  svg.appendChild(rect);
+
+  panelIndex++;
+
+}
+  
   // DRAW RIBS
 
   ribs.forEach((rib, index) => {
