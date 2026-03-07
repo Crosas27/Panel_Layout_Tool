@@ -9,9 +9,9 @@ export function renderSvg(model) {
 
   svg.innerHTML = "";
 
-  const wallLength = model.wallLength;
-  const ribs = model.ribs;
-  const panelCoverage = model.panelCoverage;
+  const wallLength = model.wallLength || 0;
+  const ribs = model.ribs || [];
+  const panelCoverage = model.panelCoverage || 36;
 
   const svgWidth = svg.clientWidth || 900;
   const svgHeight = 260;
@@ -26,6 +26,8 @@ export function renderSvg(model) {
   const panelDimY = 30;
   const totalDimY = 210;
 
+  const NS = "http://www.w3.org/2000/svg";
+
   // ------------------------------------------------
   // PANEL SHADING
   // ------------------------------------------------
@@ -36,7 +38,7 @@ export function renderSvg(model) {
 
     const width = Math.min(panelCoverage, wallLength - x);
 
-    const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    const rect = document.createElementNS(NS, "rect");
 
     rect.setAttribute("x", x * scale);
     rect.setAttribute("y", wallTop);
@@ -59,15 +61,14 @@ export function renderSvg(model) {
   // WALL OUTLINE
   // ------------------------------------------------
 
-  const wall = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+  const wall = document.createElementNS(NS, "rect");
 
   wall.setAttribute("x", 0);
   wall.setAttribute("y", wallTop);
   wall.setAttribute("width", wallLength * scale);
   wall.setAttribute("height", wallHeight);
 
-  wall.setAttribute("stroke", "#90A4AE");
-  wall.setAttribute("stroke-width", "2");
+  wall.setAttribute("class", "wall-outline");
   wall.setAttribute("fill", "none");
 
   svg.appendChild(wall);
@@ -78,16 +79,14 @@ export function renderSvg(model) {
 
   for (let x = panelCoverage; x < wallLength; x += panelCoverage) {
 
-    const seam = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    const seam = document.createElementNS(NS, "line");
 
     seam.setAttribute("x1", x * scale);
     seam.setAttribute("x2", x * scale);
     seam.setAttribute("y1", wallTop);
     seam.setAttribute("y2", wallTop + wallHeight);
 
-    seam.setAttribute("stroke", "#78909C");
-    seam.setAttribute("stroke-width", "4");
-    seam.setAttribute("opacity", "0.7");
+    seam.setAttribute("class", "panel-seam");
 
     svg.appendChild(seam);
   }
@@ -100,28 +99,24 @@ export function renderSvg(model) {
 
     const x = rib.position * scale;
 
-    const ribLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    const ribLine = document.createElementNS(NS, "line");
 
     ribLine.setAttribute("x1", x);
     ribLine.setAttribute("x2", x);
     ribLine.setAttribute("y1", wallTop);
     ribLine.setAttribute("y2", wallTop + wallHeight);
 
-    ribLine.setAttribute("stroke", "#2196F3");
-    ribLine.setAttribute("stroke-width", "2");
+    ribLine.setAttribute("class", "rib-line");
 
     svg.appendChild(ribLine);
 
-    // rib label
+    // Rib Label
 
-    const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    const label = document.createElementNS(NS, "text");
 
     label.setAttribute("x", x);
     label.setAttribute("y", wallTop + wallHeight + 18);
-    label.setAttribute("text-anchor", "middle");
-
-    label.setAttribute("fill", "#BBDEFB");
-    label.setAttribute("font-size", "10");
+    label.setAttribute("class", "rib-label");
 
     label.textContent = `R${index}`;
 
@@ -129,7 +124,7 @@ export function renderSvg(model) {
   });
 
   // ------------------------------------------------
-  // PANEL DIMENSIONS (TOP)
+  // PANEL DIMENSIONS
   // ------------------------------------------------
 
   for (let x = 0; x < wallLength; x += panelCoverage) {
@@ -139,7 +134,7 @@ export function renderSvg(model) {
     const start = x * scale;
     const end = (x + width) * scale;
 
-    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    const line = document.createElementNS(NS, "line");
 
     line.setAttribute("x1", start);
     line.setAttribute("x2", end);
@@ -151,14 +146,13 @@ export function renderSvg(model) {
 
     svg.appendChild(line);
 
-    const panelText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    const panelText = document.createElementNS(NS, "text");
 
     panelText.setAttribute("x", (start + end) / 2);
     panelText.setAttribute("y", panelDimY - 4);
-
-    panelText.setAttribute("fill", "#CFD8DC");
     panelText.setAttribute("text-anchor", "middle");
     panelText.setAttribute("font-size", "10");
+    panelText.setAttribute("fill", "#5f6c7b");
 
     panelText.textContent = formatToField(width);
 
@@ -169,27 +163,27 @@ export function renderSvg(model) {
   // TOTAL WALL DIMENSION
   // ------------------------------------------------
 
-  const totalLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+  const totalLine = document.createElementNS(NS, "line");
 
   totalLine.setAttribute("x1", 0);
   totalLine.setAttribute("x2", wallLength * scale);
   totalLine.setAttribute("y1", totalDimY);
   totalLine.setAttribute("y2", totalDimY);
 
-  totalLine.setAttribute("stroke", "#4FC3F7");
+  totalLine.setAttribute("stroke", "#2f80ed");
   totalLine.setAttribute("stroke-width", "2");
 
   svg.appendChild(totalLine);
 
-  const totalText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+  const totalText = document.createElementNS(NS, "text");
 
   totalText.setAttribute("x", (wallLength * scale) / 2);
   totalText.setAttribute("y", totalDimY - 10);
-
   totalText.setAttribute("text-anchor", "middle");
-  totalText.setAttribute("fill", "#4FC3F7");
+  totalText.setAttribute("class", "dimension-text");
 
   totalText.textContent = formatToField(wallLength);
 
   svg.appendChild(totalText);
+
 }
