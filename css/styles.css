@@ -5,8 +5,8 @@
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
-  background: #f2f4f7;
-  color: #333;
+  background: #0f1b2d;
+  color: #e4e9ef;
 }
 
 /* -------------------------
@@ -14,8 +14,8 @@ body {
 ------------------------- */
 
 header {
-  background: #3a4a5a;
-  color: white;
+  background: #0a1626;
+  color: #ffffff;
   padding: 16px;
   font-size: 20px;
   font-weight: bold;
@@ -32,27 +32,11 @@ header {
 }
 
 .card {
-  background: white;
+  background: #14243a;
   border-radius: 6px;
   padding: 20px;
   margin-bottom: 25px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.08);
-}
-
-/* -------------------------
-   Input Layout
-------------------------- */
-
-.input-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  align-items: flex-end;
-}
-
-.input-group {
-  display: flex;
-  flex-direction: column;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.4);
 }
 
 /* -------------------------
@@ -60,6 +44,7 @@ header {
 ------------------------- */
 
 label {
+  display: block;
   font-weight: bold;
   margin-bottom: 6px;
 }
@@ -67,9 +52,11 @@ label {
 input {
   width: 120px;
   padding: 8px;
-  border: 1px solid #cfd6de;
+  border: 1px solid #32465e;
   border-radius: 4px;
-  font-size: 14px;
+  margin-bottom: 12px;
+  background: #0d1a2b;
+  color: #ffffff;
 }
 
 /* -------------------------
@@ -95,15 +82,9 @@ button:hover {
 ------------------------- */
 
 #svgContainer {
-  border: 1px solid #d0d7de;
-  background: #fafafa;
+  border: 1px solid #25364a;
+  background: #0b1625;
   padding: 10px;
-  overflow-x: auto;
-}
-
-#wallSvg {
-  width: 100%;
-  height: 200px;
 }
 
 /* -------------------------
@@ -116,14 +97,14 @@ table {
 }
 
 th {
-  background: #e9eef4;
+  background: #1b2b44;
   text-align: left;
   padding: 8px;
 }
 
 td {
   padding: 8px;
-  border-top: 1px solid #e1e4e8;
+  border-top: 1px solid #2a3c54;
 }
 
 /* -------------------------
@@ -141,22 +122,17 @@ td {
 }
 
 .wall-outline {
-  stroke: #2c3e50;
+  stroke: #5f7287;
   stroke-width: 2;
 }
 
-/* -------------------------
-   Rib Labels
-------------------------- */
-
 .rib-label {
-  fill: #5f6c7b;
-  font-size: 12px;
+  fill: #a9c6ff;
+  font-size: 10px;
   text-anchor: middle;
 }
 
 .dimension-text {
-  fill: #2f80ed;
-  font-size: 14px;
-  font-weight: bold;
+  fill: #59b6ff;
+  font-size: 12px;
 }
