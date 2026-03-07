@@ -5,8 +5,8 @@
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
-  background: #0f1b2d;
-  color: #e4e9ef;
+  background: #f2f4f7;
+  color: #333;
 }
 
 /* -------------------------
@@ -14,8 +14,8 @@ body {
 ------------------------- */
 
 header {
-  background: #0a1626;
-  color: #ffffff;
+  background: #2c3e50;
+  color: white;
   padding: 16px;
   font-size: 20px;
   font-weight: bold;
@@ -32,11 +32,11 @@ header {
 }
 
 .card {
-  background: #14243a;
+  background: white;
   border-radius: 6px;
   padding: 20px;
   margin-bottom: 25px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.4);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 
 /* -------------------------
@@ -47,16 +47,18 @@ label {
   display: block;
   font-weight: bold;
   margin-bottom: 6px;
+  color: #333;   /* FIXED */
 }
 
 input {
   width: 120px;
   padding: 8px;
-  border: 1px solid #32465e;
+  border: 1px solid #cfd6de;
   border-radius: 4px;
   margin-bottom: 12px;
-  background: #0d1a2b;
-  color: #ffffff;
+
+  background: #ffffff;  /* FIXED */
+  color: #222;          /* FIXED */
 }
 
 /* -------------------------
@@ -82,8 +84,8 @@ button:hover {
 ------------------------- */
 
 #svgContainer {
-  border: 1px solid #25364a;
-  background: #0b1625;
+  border: 1px solid #d0d7de;
+  background: #fafafa;
   padding: 10px;
 }
 
@@ -97,14 +99,14 @@ table {
 }
 
 th {
-  background: #1b2b44;
+  background: #e9eef4;
   text-align: left;
   padding: 8px;
 }
 
 td {
   padding: 8px;
-  border-top: 1px solid #2a3c54;
+  border-top: 1px solid #e1e4e8;
 }
 
 /* -------------------------
@@ -122,17 +124,6 @@ td {
 }
 
 .wall-outline {
-  stroke: #5f7287;
+  stroke: #2c3e50;
   stroke-width: 2;
-}
-
-.rib-label {
-  fill: #a9c6ff;
-  font-size: 10px;
-  text-anchor: middle;
-}
-
-.dimension-text {
-  fill: #59b6ff;
-  font-size: 12px;
 }
