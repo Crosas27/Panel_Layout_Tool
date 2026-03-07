@@ -36,7 +36,7 @@ function calculateRibs({ wallLength, ribSpacing, startOffset }) {
   let position = startOffset;
   let index = 0;
 
-  while (position <= wallLength) {
+  while (position <= wallLength + 0.0001) {
 
     ribs.push({
       index,
