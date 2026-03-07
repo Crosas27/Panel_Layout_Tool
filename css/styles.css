@@ -40,11 +40,26 @@ header {
 }
 
 /* -------------------------
+   Input Layout
+------------------------- */
+
+.input-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: flex-end;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+/* -------------------------
    Inputs
 ------------------------- */
 
 label {
-  display: block;
   font-weight: bold;
   margin-bottom: 6px;
 }
@@ -54,7 +69,7 @@ input {
   padding: 8px;
   border: 1px solid #cfd6de;
   border-radius: 4px;
-  margin-bottom: 12px;
+  font-size: 14px;
 }
 
 /* -------------------------
@@ -83,6 +98,12 @@ button:hover {
   border: 1px solid #d0d7de;
   background: #fafafa;
   padding: 10px;
+  overflow-x: auto;
+}
+
+#wallSvg {
+  width: 100%;
+  height: 200px;
 }
 
 /* -------------------------
@@ -122,4 +143,20 @@ td {
 .wall-outline {
   stroke: #2c3e50;
   stroke-width: 2;
+}
+
+/* -------------------------
+   Rib Labels
+------------------------- */
+
+.rib-label {
+  fill: #5f6c7b;
+  font-size: 12px;
+  text-anchor: middle;
+}
+
+.dimension-text {
+  fill: #2f80ed;
+  font-size: 14px;
+  font-weight: bold;
 }
